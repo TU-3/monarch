@@ -4,12 +4,25 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+import { drizzle } from 'drizzle-orm/postgres-js'
+import postgres from 'postgres'
+import { users } from './db/schema'
+
+const connectionString = process.env.DATABASE_URL
+
+// Disable prefetch as it is not supported for "Transaction" pool mode
+const client = postgres(connectionString, { prepare: false })
+const db = drizzle(client);
+
+const allUsers = await db.select().from(users);
+
+
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <div className="">
+      <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
