@@ -5,21 +5,15 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 import { drizzle } from 'drizzle-orm/postgres-js'
-import postgres from 'postgres'
+import { eq } from 'drizzle-orm';
 import { users } from './db/schema'
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = import.meta.env.VITE_DATABASE_URL;
+console.log("Connection String: ", connectionString);
 
-if (!connectionString) {
-  throw new Error("DATABASE_URL is not defined");
-}
+const db = drizzle(connectionString); //Disable prefetch as it is not supported for "Transaction" pool mode
 
-// Disable prefetch as it is not supported for "Transaction" pool mode
-const client = postgres(connectionString, { prepare: false });
-const db = drizzle(client);
-
-const allUsers = await db.select().from(users);
-
+// const allUsers = await db.select().from(users);
 
 function App() {
   const [count, setCount] = useState(0)
@@ -34,6 +28,10 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
+      {/* <p>
+        <h1>All Users</h1>
+        {allUsers ? allUsers.map((user) => <div key={user.id}>{user.email}</div>) : "Loading..."}
+      </p> */}
       <h1>Vite + React</h1>
       <div className="card">
         <Button onClick={() => setCount((count) => count + 1)}>
