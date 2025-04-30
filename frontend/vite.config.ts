@@ -1,19 +1,26 @@
 import path from "path"
-import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import tailwindcss from "@tailwindcss/vite"
+import { defineConfig, loadEnv } from "vite"
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  server: {
-    proxy: {
-      '/api': 'http://localhost:3001',
+export default defineConfig(({ mode }) => {
+  // Load .env file based on the current mode (e.g., development or production)
+  const env = loadEnv(mode, process.cwd(), '')
+
+  return {
+    plugins: [react(), tailwindcss()],
+    server: {
+      proxy: {
+        '/api': {
+          target: env.VITE_API_PROXY_URL ?? 'http://localhost:3001',
+          changeOrigin: true,
+        },
+      },
     },
-  },
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
     },
-  },
+  }
 })
