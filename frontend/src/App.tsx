@@ -9,7 +9,7 @@ function App() {
   const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {
-    fetch('https://monarch-backend-4jz1.onrender.com/api/users')
+    fetch(import.meta.env.VITE_API_PROXY_URL+'api/users')
       .then(res => res.json())
       .then(setUsers)
       .catch(console.error)
