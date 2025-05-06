@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button"
-import { useState, useEffect } from 'react'
+// import { Button } from "@/components/ui/button"
+// import { useState, useEffect } from 'react'
 import './App.css'
 
-type User = { id: number; email: string /*…other fields*/ }
+// type User = { id: number; email: string /*…other fields*/ }
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [users, setUsers] = useState<User[]>([])
+  // const [count, setCount] = useState(0)
+  // const [users, setUsers] = useState<User[]>([])
 
   // useEffect(() => {
   //   fetch('/api/users')
