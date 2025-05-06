@@ -8,25 +8,25 @@ function App() {
   const [count, setCount] = useState(0)
   const [users, setUsers] = useState<User[]>([])
 
-  useEffect(() => {
-    fetch('/api/users')
-      .then(res => res.json())
-      .then(setUsers)
-      .catch(console.error)
-  }, [])
+  // useEffect(() => {
+  //   fetch('/api/users')
+  //     .then(res => res.json())
+  //     .then(setUsers)
+  //     .catch(console.error)
+  // }, [])
 
   return (
     <>
       <div>
         <h1>Users</h1>
-        {users.map(u => (
+        {/* {users.map(u => (
           <div key={u.id}>{u.email}</div>
-        ))}
+        ))} */}
       </div>
 
-      <Button onClick={() => setCount((count) => count + 1)}>
+      {/* <Button onClick={() => setCount((count) => count + 1)}>
         count is {count}
-      </Button>
+      </Button> */}
 
     </>
   )
