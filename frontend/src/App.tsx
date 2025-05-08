@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
-import AuthenticatedRoute from "@/pages/AuthentiatedRoute";
+import AuthenticatedRoute from "@/pages/AuthenticatedRoute";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import "./App.css";

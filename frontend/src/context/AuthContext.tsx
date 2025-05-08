@@ -22,13 +22,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     );
     return () => {
-        // Cleanup the listener when the component unmounts
+      // Cleanup the listener when the component unmounts
       authStateListener.data.subscription.unsubscribe();
     };
   }, []);
 
   return (
-    // Provide the session to the context 
+    // Provide the session to the context
     <AuthContext.Provider value={{ session }}>
       {isLoading ? <div>loading...</div> : children}
     </AuthContext.Provider>
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 export const useSession = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useContext must be used within an AuthProvider");
   }
   return context;
 };
