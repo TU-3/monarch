@@ -1,35 +1,36 @@
-import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { StrictMode } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "@/context/AuthContext";
+import AuthenticatedRoute from "@/pages/AuthentiatedRoute";
+import Login from "@/pages/Login";
+import Signup from "@/pages/Signup";
 import "./App.css";
-import { createClient } from "./lib/client";
-
-type User = { id: number; email: string /*…other fields*/ };
+import ForgotPassword from "@/pages/ForgotPassword";
+import UpdatePassword from "@/pages/UpdatePassword";
+import OrgDashboard from "./pages/OrgDashboard";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    fetch(import.meta.env.VITE_API_PROXY_URL + "api/users")
-      .then((res) => res.json())
-      .then(setUsers)
-      .catch(console.error);
-  }, []);
-
   return (
-    <>
-      <div>
-        <h1>Users</h1>
-        {users.map((u) => (
-          <div key={u.id}>{u.email}</div>
-        ))}
-      </div>
-
-      <Button onClick={() => setCount((count) => count + 1)}>
-        count is {count}
-      </Button>
-      <Button onClick={() => createClient().auth.signOut()}>Sign out</Button>
-    </>
+    <StrictMode>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <AuthenticatedRoute>
+                  <OrgDashboard />
+                </AuthenticatedRoute>
+              }
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/update-password" element={<UpdatePassword />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </StrictMode>
   );
 }
 
