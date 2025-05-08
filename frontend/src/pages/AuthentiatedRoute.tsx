@@ -1,18 +1,17 @@
-import { useEffect } from "react";
-import { createClient } from "@/lib/client";
+import { useSession } from "@/context/AuthContext";
+import { Navigate } from "react-router-dom";
 
-export default function AuthenticatedRoute() {
-  useEffect(() => {
-    const checkAuth = async () => {
-      const client = createClient();
-      const { error } = await client.auth.getUser();
+type Props = {
+  children: React.ReactNode;
+};
 
-      if (error) {
-        location.href = "/login";
-      }
-    };
-    checkAuth();
-  }, []);
+export default function AuthenticatedRoute({ children }: Props) {
+  const { session } = useSession();
 
-  return <div>Authenticated page</div>;
+  if (!session) {
+    console.log("User is not authenticated, redirecting to login.");
+    return <Navigate to="/login" />;
+  }
+
+  return <>{children}</>;
 }
