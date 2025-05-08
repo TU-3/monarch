@@ -1,0 +1,36 @@
+import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import "@/App.css";
+import { createClient } from "../lib/client";
+
+type User = { id: number; email: string /*…other fields*/ };
+
+function OrgDashboard() {
+  const [count, setCount] = useState(0);
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    fetch(import.meta.env.VITE_API_PROXY_URL + "api/users")
+      .then((res) => res.json())
+      .then(setUsers)
+      .catch(console.error);
+  }, []);
+
+  return (
+    <>
+      <div>
+        <h1>Users</h1>
+        {users.map((u) => (
+          <div key={u.id}>{u.email}</div>
+        ))}
+      </div>
+
+      <Button onClick={() => setCount((count) => count + 1)}>
+        count is {count}
+      </Button>
+      <Button onClick={() => createClient().auth.signOut()}>Sign out</Button>
+    </>
+  );
+}
+
+export default OrgDashboard;
