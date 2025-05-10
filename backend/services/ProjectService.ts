@@ -1,14 +1,18 @@
 // services/ProjectService.ts
 import { db } from '../db'; // reuse the shared instance
-import { project } from '../db/schema';
+import { project, meetingMinutes, task } from '../db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function getProjectsByOrganization(organizationId: number) {
-  return db.select().from(project).where(eq(project.organizationId, organizationId));
+  return db.query.project.findMany({
+    where: eq(project.organizationId, organizationId),
+  }); 
 }
 
 export async function getProjectById(projectId: number) {
-  return db.select().from(project).where(eq(project.id, projectId));
+  return db.query.project.findFirst({
+    where: eq(project.id, projectId),
+  });
 }
 
 export async function createProject(organizationId: number, name: string, description: string | null) {
@@ -28,5 +32,13 @@ export async function updateProject(projectId: number, name: string, description
 }
 
 export async function deleteProject(projectId: number) {
-  return db.delete(project).where(eq(project.id, projectId));
+  try {
+    await db.delete(meetingMinutes).where(eq(meetingMinutes.projectId, projectId));
+    await db.delete(task).where(eq(task.projectId, projectId));
+    await db.delete(project).where(eq(project.id, projectId));
+  } catch (error) {
+    console.error('Error deleting project:', error);
+    return { success: false, error: 'Failed to delete project' };
+  }
+  return { success: true };
 }

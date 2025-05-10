@@ -3,12 +3,16 @@ import { db } from '../db'; // reuse the shared instance
 import { task } from '../db/schema';
 import { eq} from 'drizzle-orm';
 
-export async function getTaskId(id: number) {
-  return db.select().from(task).where(eq(task.id, id));
+export async function getTaskById(id: number) {
+  return db.query.task.findFirst({
+    where: eq(task.id, id),
+  }); 
 }
 
 export async function getTasksByProject(projectId: number) {
-  return db.select().from(task).where(eq(task.projectId, projectId));
+  return db.query.task.findMany({
+    where: eq(task.projectId, projectId),
+  });
 }
 
 export async function createTask(projectId: number, name: string, description: string, status: string, assignedTo: string) {

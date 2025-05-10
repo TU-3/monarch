@@ -1,15 +1,20 @@
 // services/MeetingMinutes.ts
 import { title } from 'process';
 import { db } from '../db'; // reuse the shared instance
-import { meetingMinutes } from '../db/schema';
 import { eq} from 'drizzle-orm';
+import { meetingMinutes } from '../db/schema';
 
 export async function getMeetingMinutesById(id: number) {
-  return db.select().from(meetingMinutes).where(eq(meetingMinutes.id, id));
+  return db.query.meetingMinutes.findFirst({
+    where: eq(meetingMinutes.id, id),
+  });
 }
 
+
 export async function getMeetingMinutesByProject(projectId: number) {
-  return db.select().from(meetingMinutes).where(eq(meetingMinutes.projectId, projectId));
+  return db.query.meetingMinutes.findMany({
+    where: eq(meetingMinutes.projectId, projectId),
+  });
 }
 
 export async function createMeetingMinutes(projectId: number, title: string, file: string) {

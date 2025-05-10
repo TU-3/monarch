@@ -3,11 +3,20 @@ import { organizationUser, organization } from '../db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function getOrganizationsFromUser(userId: string) {
-  return db.select({organization}).from(organizationUser).where(eq(organizationUser.userId, userId));
+  const rows = await db.query.organizationUser.findMany({
+    where: eq(organizationUser.userId, userId),
+    with: {
+      organization: true, 
+    },
+  });
+
+  return rows.map((row) => row.organization);  
 }
 
 export async function getOrganizationById(organizationId: number) {
-  return db.select().from(organization).where(eq(organization.id, organizationId));
+  return db.query.organization.findFirst({
+    where: eq(organization.id, organizationId),
+  });
 }
 
 export async function createOrganization(organizationName: string, ownerId: string) {
@@ -18,6 +27,22 @@ export async function createOrganization(organizationName: string, ownerId: stri
   });
 }
 
-export async function deleteOrganization(organizationId: number) {
-  return db.delete(organization).where(eq(organization.id, organizationId));
+export async function addUserToOrganization(organizationId: number, userId: string) {
+  return db.insert(organizationUser).values({
+    organizationId: organizationId,
+    userId: userId,
+  });
 }
+
+export async function deleteOrganization(organizationId: number) {
+  
+  try {
+    await db.delete(organizationUser).where(eq(organizationUser.organizationId, organizationId));
+    await db.delete(organization).where(eq(organization.id, organizationId));
+  } catch (error) {
+    console.error('Error deleting organization:', error);
+    return { success: false, error: 'Failed to delete organization' };
+  }
+  return { success: true };
+}
+
