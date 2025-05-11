@@ -1,10 +1,10 @@
-import { UpdatePasswordForm } from "@/components/update-password-form";
+import { UpdatePasswordForm } from "@/components/authentication/update-password-form";
 
 function UpdatePassword() {
   return (
-    <>
-      <UpdatePasswordForm />
-    </>
+    <div className="w-full h-screen flex items-center justify-center">
+      <UpdatePasswordForm className="sm:w-96" />
+    </div>
   );
 }
 

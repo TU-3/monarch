@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import "@/App.css";
-import { createClient } from "../lib/client";
+import { H1, H2, H3, H4, H5, H6, P, SmallText, Subtitle } from "@/components/typography";
 
 type User = { id: number; email: string /*…other fields*/ };
 
@@ -28,7 +27,18 @@ function OrgDashboard() {
       <Button onClick={() => setCount((count) => count + 1)}>
         count is {count}
       </Button>
-      <Button onClick={() => createClient().auth.signOut()}>Sign out</Button>
+
+      <section id="typography-examples-delete-later" className="">
+        <H1>Typography Examples</H1>
+        <H2>Heading 2</H2>
+        <H3>Heading 3</H3>
+        <H4>Heading 4</H4>
+        <H5>Heading 5</H5>
+        <H6>Heading 6</H6>
+        <P>Paragraph</P>
+        <SmallText>Small Text</SmallText>
+        <Subtitle>Subtitle</Subtitle>
+      </section>
     </>
   );
 }
