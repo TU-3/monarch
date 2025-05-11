@@ -37,8 +37,10 @@ export async function addUserToOrganization(organizationId: number, userId: stri
 export async function deleteOrganization(organizationId: number) {
   
   try {
-    await db.delete(organizationUser).where(eq(organizationUser.organizationId, organizationId));
-    await db.delete(organization).where(eq(organization.id, organizationId));
+    await db.transaction(async (tx) => {
+      await tx.delete(organizationUser).where(eq(organizationUser.organizationId, organizationId));
+      await tx.delete(organization).where(eq(organization.id, organizationId));
+    });
   } catch (error) {
     console.error('Error deleting organization:', error);
     return { success: false, error: 'Failed to delete organization' };

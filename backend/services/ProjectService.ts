@@ -32,10 +32,13 @@ export async function updateProject(projectId: number, name: string, description
 }
 
 export async function deleteProject(projectId: number) {
+  
   try {
-    await db.delete(meetingMinutes).where(eq(meetingMinutes.projectId, projectId));
-    await db.delete(task).where(eq(task.projectId, projectId));
-    await db.delete(project).where(eq(project.id, projectId));
+    await db.transaction(async (tx) => {
+      await tx.delete(meetingMinutes).where(eq(meetingMinutes.projectId, projectId));
+      await tx.delete(task).where(eq(task.projectId, projectId));
+      await tx.delete(project).where(eq(project.id, projectId));
+    });
   } catch (error) {
     console.error('Error deleting project:', error);
     return { success: false, error: 'Failed to delete project' };
