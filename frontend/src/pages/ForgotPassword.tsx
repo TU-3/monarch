@@ -1,10 +1,10 @@
-import { ForgotPasswordForm } from "@/components/forgot-password-form";
+import { ForgotPasswordForm } from "@/components/authentication/forgot-password-form";
 
 function ForgotPassword() {
   return (
-    <>
-      <ForgotPasswordForm />
-    </>
+    <div className="w-full h-screen flex items-center justify-center">
+      <ForgotPasswordForm className="sm:w-96" />
+    </div>
   );
 }
 

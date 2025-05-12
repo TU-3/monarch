@@ -4,30 +4,32 @@ import { AuthProvider } from "@/context/AuthContext";
 import AuthenticatedRoute from "@/pages/AuthenticatedRoute";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
-import "./App.css";
 import ForgotPassword from "@/pages/ForgotPassword";
 import UpdatePassword from "@/pages/UpdatePassword";
 import OrgDashboard from "./pages/OrgDashboard";
+import Layout from "./components/layout";
 
 function App() {
   return (
     <StrictMode>
       <AuthProvider>
         <Router>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <AuthenticatedRoute>
-                  <OrgDashboard />
-                </AuthenticatedRoute>
-              }
-            />
-            <Route path="/login" element={<Login />} />
-            <Route path="/sign-up" element={<Signup />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/update-password" element={<UpdatePassword />} />
-          </Routes>
+          <Layout>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <AuthenticatedRoute>
+                    <OrgDashboard />
+                  </AuthenticatedRoute>
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/sign-up" element={<Signup />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/update-password" element={<UpdatePassword />} />
+            </Routes>
+          </Layout>
         </Router>
       </AuthProvider>
     </StrictMode>

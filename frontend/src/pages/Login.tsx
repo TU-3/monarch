@@ -1,10 +1,10 @@
-import { LoginForm } from "@/components/login-form";
+import { LoginForm } from "@/components/authentication/login-form";
 
 function Login() {
   return (
-    <>
-      <LoginForm />
-    </>
+    <div className="w-full h-screen flex items-center justify-center">
+      <LoginForm className="sm:w-96" />
+    </div >
   );
 }
 
