@@ -1,5 +1,5 @@
-import { db } from '../db'; // reuse the shared instance
-import { organizationUser, organization } from '../db/schema';
+import { db } from '../../db'; // reuse the shared instance
+import { organizationUser, organization } from '../../db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function getOrganizationsFromUser(userId: string) {

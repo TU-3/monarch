@@ -1,6 +1,6 @@
 // services/ProjectService.ts
-import { db } from '../db'; // reuse the shared instance
-import { project, meetingMinutes, task } from '../db/schema';
+import { db } from '../../db'; // reuse the shared instance
+import { project, meetingMinutes, task } from '../../db/schema';
 import { eq } from 'drizzle-orm';
 
 export async function getProjectsByOrganization(organizationId: number) {
