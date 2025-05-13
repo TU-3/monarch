@@ -9,10 +9,11 @@ export const ProjectController = {
 
         if (isNaN(organizationId)) {
             res.status(400).json({ error: "Invalid organization ID" });
+            return;
         }
 
         const projects = await getProjectsByOrganization(organizationId);
-        res.json(projects);
+        res.status(200).json(projects);
     } catch (error) {
         res.status(500).json({ message: "Failed to fetch projects: " + error });
     }
@@ -23,12 +24,13 @@ export const ProjectController = {
         const projectId = Number(req.params.projectId);
         if (isNaN(projectId)) {
             res.status(400).json({ error: "Invalid project ID" });
+            return;
         }
 
         const tasks = await getTasksByProject(projectId);
-        res.status(201).json(tasks);
+        res.status(200).json(tasks);
     } catch (error) {
-        res.status(400).json({ message: "Failed to fetch tasks for project: " + error });
+        res.status(500).json({ message: "Failed to fetch tasks for project: " + error });
     }
   },
 
@@ -37,11 +39,13 @@ export const ProjectController = {
         const taskId = Number(req.params.taskId);
         if (isNaN(taskId)) {
             res.status(400).json({ error: "Invalid task ID" });
+            return;
         }
         
         const { status } = req.body;
         if (!status) {
             res.status(400).json({ error: "Status is required" });
+            return;
         }
 
         const updatedTask = await updateTaskStatus(taskId, status);

@@ -3,6 +3,8 @@ import { db } from '../db'; // reuse the shared instance
 import { task } from '../db/schema';
 import { eq} from 'drizzle-orm';
 
+type TaskStatus = 'Backlog' | 'To-do' | 'In Progress' | 'Review' | 'Done';
+
 export async function getTaskById(id: number) {
   return db.query.task.findFirst({
     where: eq(task.id, id),
@@ -35,9 +37,9 @@ export async function updateTask(id: number, name: string, description: string, 
   }).where(eq(task.id, id));
 }
 
-export async function updateTaskStatus(id: number, status: string) {
+export async function updateTaskStatus(id: number, status: TaskStatus ) {
   return db.update(task).set({
-    status: status as "Backlog" | "To-do" | "In Progress" | "Review" | "Done",
+    status: status,
   }).where(eq(task.id, id)).returning();
 }
 
