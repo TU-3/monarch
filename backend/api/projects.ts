@@ -20,7 +20,7 @@ router.get('/:orgId', async (req, res) => {
       console.log(allProjects);
       res.json(allProjects);
     } catch (err) {
-      console.error("Error geting projects of this org: ",err);
+      console.error("Error getting projects of this org: ",err);
       res.status(500).json({ error: 'Internal Server Error' });
     }
     });

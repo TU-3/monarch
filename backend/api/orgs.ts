@@ -20,7 +20,7 @@ router.get('/:userId', async (req, res) => {
     console.log(allOrgs);
     res.json(allOrgs);
   } catch (err) {
-    console.error("Error geting organizations of this user: ",err);
+    console.error("Error getting organizations of this user: ",err);
     res.status(500).json({ error: 'Internal Server Error' });
   }
   });
