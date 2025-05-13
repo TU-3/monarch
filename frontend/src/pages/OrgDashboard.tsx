@@ -26,8 +26,7 @@ function OrgDashboard() {
     const fetchOrganizationsAndProjects = async () => {
       try {
         const org_response = await fetch(
-          //import.meta.env.VITE_API_PROXY_URL+ "api/orgs/"+session?.user.id);
-          "http://localhost:3001/" + "api/orgs/" + session?.user.id
+          import.meta.env.VITE_API_PROXY_URL + "api/orgs/" + session?.user.id
         );
 
         if (!org_response.ok) {
@@ -40,9 +39,9 @@ function OrgDashboard() {
           // Promise.all means do in parallel
           org_data.map(async (org: Organization) => {
             const project_response = await fetch(
-              //import.meta.env.VITE_API_PROXY_URL+ "api/orgs/projects/"+orgId);
-              "http://localhost:3001/" + "api/projects/" + org.id
+              import.meta.env.VITE_API_PROXY_URL + "api/projects/" + org.id
             );
+
             if (!project_response.ok) {
               throw new Error("Failed to fetch projects of this organization");
             }
