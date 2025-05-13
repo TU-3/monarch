@@ -4,6 +4,7 @@ import cors from 'cors';
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { users } from './db/schema';    // adjust path if needed
+import projectRoutes from "./api/kanban";
 
 // 1) Initialize Postgres client (disable prepare if using Supabase pool mode)
 const sql = postgres(process.env.DATABASE_URL!, {
@@ -18,15 +19,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/users', async (_req, res) => {
-  try {
-    const allUsers = await db.select().from(users);
-    res.json(allUsers);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+app.use("/api/kanban", projectRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
