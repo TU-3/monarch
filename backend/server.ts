@@ -3,6 +3,8 @@ import express from 'express';
 import cors from 'cors';
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
+import { users } from './db/schema';    // adjust path if needed
+import projectRoutes from "./api/kanban";
 import orgsRouter from './api/orgs';
 import projectsRouter from './api/projects';
 
@@ -12,18 +14,14 @@ const sql = postgres(process.env.DATABASE_URL!, {
   prepare: false,
 });
 
-// 2) Wrap in Drizzle
-const db = drizzle(sql);
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 // Register the routers 
+app.use("/api/kanban", projectRoutes);
 app.use('/api/orgs', orgsRouter);
 app.use('/api/projects', projectsRouter)
-
-
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
