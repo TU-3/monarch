@@ -12,15 +12,13 @@ router.get('/:orgId', async (req, res) => {
     const { orgId } = req.params;
   
     if (!orgId) {
-      console.error('Organization ID is required');
+      res.status(400).json({ error: 'Organization ID is required' });
     }
   
     try {
       const allProjects = await getProjectsByOrganization(parseInt(orgId)); 
-      console.log(allProjects);
       res.json(allProjects);
     } catch (err) {
-      console.error("Error getting projects of this org: ",err);
       res.status(500).json({ error: 'Internal Server Error' });
     }
     });

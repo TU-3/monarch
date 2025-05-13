@@ -12,15 +12,13 @@ router.get('/:userId', async (req, res) => {
   const { userId } = req.params;
 
   if (!userId) {
-    console.error('User ID is required');
+    res.status(400).json({ error: 'User ID is required' });
   }
 
   try {
     const allOrgs = await getOrganizationsFromUser(userId); 
-    console.log(allOrgs);
     res.json(allOrgs);
   } catch (err) {
-    console.error("Error getting organizations of this user: ",err);
     res.status(500).json({ error: 'Internal Server Error' });
   }
   });
