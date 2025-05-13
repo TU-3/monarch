@@ -5,6 +5,8 @@ import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { users } from './db/schema';    // adjust path if needed
 import projectRoutes from "./api/kanban";
+import orgsRouter from './api/orgs';
+import projectsRouter from './api/projects';
 
 // 1) Initialize Postgres client (disable prepare if using Supabase pool mode)
 const sql = postgres(process.env.DATABASE_URL!, {
@@ -16,7 +18,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Register the routers 
 app.use("/api/kanban", projectRoutes);
+app.use('/api/orgs', orgsRouter);
+app.use('/api/projects', projectsRouter)
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

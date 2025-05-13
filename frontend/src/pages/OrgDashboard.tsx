@@ -1,44 +1,80 @@
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { H1, H2, H3, H4, H5, H6, P, SmallText, Subtitle } from "@/components/typography";
+import { H2 } from "@/components/typography";
+import { useSession } from "@/context/AuthContext";
+import OrgSection from "@/pages/OrgSection";
+import { Plus } from "lucide-react";
+type Organization = {
+  id: number;
+  name: string;
+  owner: string;
+  projects: Project[];
+};
 
-type User = { id: number; email: string /*…other fields*/ };
+type Project = {
+  id: number;
+  name: string;
+  description: string;
+  organizationId: number;
+};
 
 function OrgDashboard() {
-  const [count, setCount] = useState(0);
-  const [users, setUsers] = useState<User[]>([]);
+  const [orgs, setOrgs] = useState<Organization[]>([]);
+  const { session } = useSession();
 
   useEffect(() => {
-    fetch(import.meta.env.VITE_API_PROXY_URL + "api/users")
-      .then((res) => res.json())
-      .then(setUsers)
-      .catch(console.error);
-  }, []);
+    const fetchOrganizationsAndProjects = async () => {
+      try {
+        const org_response = await fetch(
+          import.meta.env.VITE_API_PROXY_URL + "api/orgs/" + session?.user.id
+        );
+
+        if (!org_response.ok) {
+          throw new Error("Failed to fetch organizations of this user");
+        }
+
+        const org_data = await org_response.json();
+
+        const orgProjects = await Promise.all(
+          // Promise.all means do in parallel
+          org_data.map(async (org: Organization) => {
+            const project_response = await fetch(
+              import.meta.env.VITE_API_PROXY_URL + "api/projects/" + org.id
+            );
+
+            if (!project_response.ok) {
+              throw new Error("Failed to fetch projects of this organization");
+            }
+            const project_data = await project_response.json();
+            return { ...org, projects: project_data };
+          })
+        );
+        setOrgs(orgProjects);
+      } catch (error) {
+        console.error("Error fetching organizations:", error);
+      }
+    };
+
+    if (session?.user.id) {
+      fetchOrganizationsAndProjects();
+    }
+  }, [session]);
 
   return (
     <>
-      <div>
-        <h1>Users</h1>
-        {users.map((u) => (
-          <div key={u.id}>{u.email}</div>
+      <div className="flex flex-col gap-6 mb-6">
+        <H2>Welcome to Monarch</H2>
+      </div>
+      <div className="flex flex-col gap-6">
+        {orgs.map((org) => (
+          <OrgSection key={org.id} org={org} />
         ))}
       </div>
-
-      <Button onClick={() => setCount((count) => count + 1)}>
-        count is {count}
+      <Button variant="default" className="fixed bottom-4 right-4 z-50">
+        <span className="text-xl">
+          <Plus />
+        </span>
       </Button>
-
-      <section id="typography-examples-delete-later" className="">
-        <H1>Typography Examples</H1>
-        <H2>Heading 2</H2>
-        <H3>Heading 3</H3>
-        <H4>Heading 4</H4>
-        <H5>Heading 5</H5>
-        <H6>Heading 6</H6>
-        <P>Paragraph</P>
-        <SmallText>Small Text</SmallText>
-        <Subtitle>Subtitle</Subtitle>
-      </section>
     </>
   );
 }
