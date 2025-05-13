@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getProjectsByOrganization } from "../services/ProjectService";
-import { getTasksByProject } from "../services/TaskService";
+import { getTasksByProject, updateTaskStatus } from "../services/TaskService";
 
 export const ProjectController = {
   async getAllProjects(req: Request, res: Response): Promise<void> {
@@ -14,7 +14,7 @@ export const ProjectController = {
         const projects = await getProjectsByOrganization(organizationId);
         res.json(projects);
     } catch (error) {
-        res.status(500).json({ message: "Failed to fetch projects." });
+        res.status(500).json({ message: "Failed to fetch projects: " + error });
     }
   },
 
@@ -28,7 +28,26 @@ export const ProjectController = {
         const tasks = await getTasksByProject(projectId);
         res.status(201).json(tasks);
     } catch (error) {
-        res.status(400).json({ message: "Failed to fetch tasks for project." });
+        res.status(400).json({ message: "Failed to fetch tasks for project: " + error });
     }
   },
+
+  async updateTaskStatus(req: Request, res: Response): Promise<void> {
+    try {
+        const taskId = Number(req.params.taskId);
+        if (isNaN(taskId)) {
+            res.status(400).json({ error: "Invalid task ID" });
+        }
+        
+        const { status } = req.body;
+        if (!status) {
+            res.status(400).json({ error: "Status is required" });
+        }
+
+        const updatedTask = await updateTaskStatus(taskId, status);
+        res.status(200).json({ message: "Task status updated successfully.", task: updatedTask });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to update task status: " + error });
+    }
+  }
 };

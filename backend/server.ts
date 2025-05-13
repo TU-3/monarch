@@ -12,9 +12,6 @@ const sql = postgres(process.env.DATABASE_URL!, {
   prepare: false,
 });
 
-// 2) Wrap in Drizzle
-const db = drizzle(sql);
-
 const app = express();
 app.use(cors());
 app.use(express.json());

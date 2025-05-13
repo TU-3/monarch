@@ -25,6 +25,7 @@ export async function createTask(projectId: number, name: string, description: s
     assignee: assignedTo,
   });
 }
+
 export async function updateTask(id: number, name: string, description: string, status: string, assignedTo: string) {
   return db.update(task).set({
     name: name,
@@ -32,6 +33,12 @@ export async function updateTask(id: number, name: string, description: string, 
     status: status as "Backlog" | "To-do" | "In Progress" | "Review" | "Done",
     assignee: assignedTo,
   }).where(eq(task.id, id));
+}
+
+export async function updateTaskStatus(id: number, status: string) {
+  return db.update(task).set({
+    status: status as "Backlog" | "To-do" | "In Progress" | "Review" | "Done",
+  }).where(eq(task.id, id)).returning();
 }
 
 export async function deleteTask(id: number) {
