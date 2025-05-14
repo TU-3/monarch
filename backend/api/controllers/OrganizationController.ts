@@ -1,5 +1,5 @@
 import express from 'express';
-import { getOrganizationsFromUser, createOrganization, addUserToOrganization } from '../services/OrganizationService';
+import { getOrganizationsFromUser, createOrganization, addUserToOrganization, updateOrganizationName } from '../services/OrganizationService';
 
 export const OrganizationController = {
     async getOrganizationsFromUser(req: express.Request, res: express.Response): Promise<void> {
@@ -48,5 +48,19 @@ export const OrganizationController = {
         } catch (err) {
             res.status(500).json({ error: 'Internal Server Error' });
         }
-    }
+    },
+
+    async updateOrganizationName(req: express.Request, res: express.Response): Promise<void> {
+        const { orgId } = req.params;
+        const { orgName } = req.body;
+        if (!orgName || !orgId) {
+            return res.status(400).json({ error: 'Organization ID and new name are required' });
+        }
+        try {
+            const updatedOrg = await updateOrganizationName(parseInt(orgId), orgName);
+            res.json(updatedOrg);
+        } catch (err) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
 };

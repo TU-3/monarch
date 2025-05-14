@@ -14,12 +14,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Plus } from "lucide-react"
-import { DialogDescription } from "@radix-ui/react-dialog";
 
 function AddOrgModal({ onOrgChange }: { onOrgChange: () => void }) {
   const [isJoinDialogOpen, setIsJoinDialogOpen] = useState(false)

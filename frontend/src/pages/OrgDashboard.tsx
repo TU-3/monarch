@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { H2 } from "@/components/typography";
 import { useSession } from "@/context/AuthContext";
-import OrgSection from "@/pages/OrgSection";
+import OrgSection from "@/components/org-dashboard/org-section";
 import AddOrgModal from "@/components/org-dashboard/add-org-modal";
 type Organization = {
   id: number;
