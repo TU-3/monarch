@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Settings2 } from "lucide-react";
+import OrgConfigModal from "./org-config-modal";
 
 type Organization = {
   id: number;
@@ -32,9 +33,7 @@ function OrgSection(props: OrgSectionProps) {
     <div>
       <div className="flex items-center justify-between">
         <H4>{props.org.name}</H4>
-        <Button variant="ghost" size="icon">
-          <Settings2 />
-        </Button>
+        <OrgConfigModal orgInfo={props.org} />
       </div>
       <Separator className="mb-4" />
       <div className="grid grid-cols-3 gap-4">
