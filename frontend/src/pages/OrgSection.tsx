@@ -29,14 +29,14 @@ type OrgSectionProps = {
 
 function OrgSection(props: OrgSectionProps) {
   return (
-    <>
+    <div>
       <div className="flex items-center justify-between">
         <H4>{props.org.name}</H4>
         <Button variant="ghost" size="icon">
           <Settings2 />
         </Button>
       </div>
-      <Separator />
+      <Separator className="mb-4" />
       <div className="grid grid-cols-3 gap-4">
         {props.org?.projects?.map((project) => (
           <Card key={project.id} className="w-full">
@@ -48,14 +48,12 @@ function OrgSection(props: OrgSectionProps) {
         ))}
         <Button
           variant="outline"
-          className="w-1/2 border-dashed border-black h-full"
+          className="w-1/2 border-dashed h-full"
         >
-          <span>
-            <Plus />
-          </span>
+          <Plus />
         </Button>
       </div>
-    </>
+    </div>
   );
 }
 
