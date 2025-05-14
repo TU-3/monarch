@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createClient } from "@/lib/client";
+import { supabase } from "@/lib/client";
 import { Session } from "@supabase/supabase-js";
 
 type AuthContextType = {
@@ -13,9 +13,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const client = createClient();
     // Listen for auth state changes, if so set the new session and loading state
-    const authStateListener = client.auth.onAuthStateChange(
+    const authStateListener = supabase.auth.onAuthStateChange(
       async (_, session) => {
         setSession(session);
         setIsLoading(false);
