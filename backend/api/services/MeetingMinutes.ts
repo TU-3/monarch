@@ -1,7 +1,7 @@
 // services/MeetingMinutes.ts
-import { db } from '../db'; // reuse the shared instance
+import { db } from '../../db'; // reuse the shared instance
 import { eq} from 'drizzle-orm';
-import { meetingMinutes } from '../db/schema';
+import { meetingMinutes } from '../../db/schema';
 
 export async function getMeetingMinutesById(id: number) {
   return db.query.meetingMinutes.findFirst({

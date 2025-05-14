@@ -1,6 +1,6 @@
 // services/TaskService.ts
-import { db } from '../db'; // reuse the shared instance
-import { task } from '../db/schema';
+import { db } from '../../db'; // reuse the shared instance
+import { task } from '../../db/schema';
 import { eq} from 'drizzle-orm';
 
 type TaskStatus = 'Backlog' | 'To-do' | 'In Progress' | 'Review' | 'Done';

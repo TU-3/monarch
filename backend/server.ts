@@ -2,11 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import postgres from 'postgres';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import { users } from './db/schema';    // adjust path if needed
-import projectRoutes from "./api/kanban";
-import orgsRouter from './api/orgs';
-import projectsRouter from './api/projects';
+import appRouter from './api/routes/index'; // adjust path if needed
 
 // 1) Initialize Postgres client (disable prepare if using Supabase pool mode)
 const sql = postgres(process.env.DATABASE_URL!, {
@@ -19,9 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 // Register the routers 
-app.use("/api/kanban", projectRoutes);
-app.use('/api/orgs', orgsRouter);
-app.use('/api/projects', projectsRouter)
+app.use("/api", appRouter);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
