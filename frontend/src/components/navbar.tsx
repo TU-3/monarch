@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { createClient } from "@/lib/client";
+import { supabase } from "@/lib/client";
 import { InfoIcon, LogOut, User } from "lucide-react";
 
 function Navbar() {
@@ -28,7 +28,7 @@ function Navbar() {
                 <span>Help</span>
               </DropdownMenuItem>
 
-              <DropdownMenuItem onClick={() => createClient().auth.signOut()}>
+              <DropdownMenuItem onClick={() => supabase.auth.signOut()}>
                 <LogOut />
                 <span>Log out</span>
               </DropdownMenuItem>
