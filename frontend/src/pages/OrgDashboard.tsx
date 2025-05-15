@@ -67,7 +67,7 @@ function OrgDashboard() {
 
       <div className="flex flex-col gap-8">
         {orgs.map((org) => (
-          <OrgSection key={org.id} org={org} />
+          <OrgSection key={org.id} org={org} onOrgChange={fetchOrganizationsAndProjects} />
         ))}
       </div>
 

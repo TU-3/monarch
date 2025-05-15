@@ -26,6 +26,7 @@ type Project = {
 
 type OrgSectionProps = {
   org: Organization;
+  onOrgChange: () => void;
 };
 
 function OrgSection(props: OrgSectionProps) {
@@ -33,7 +34,7 @@ function OrgSection(props: OrgSectionProps) {
     <div>
       <div className="flex items-center justify-between">
         <H4>{props.org.name}</H4>
-        <OrgConfigModal orgInfo={props.org} />
+        <OrgConfigModal orgInfo={props.org} onOrgChange={props.onOrgChange} />
       </div>
       <Separator className="mb-4" />
       <div className="grid grid-cols-3 gap-4">

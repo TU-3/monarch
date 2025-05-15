@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@/components/theme-provider"
 import { Particles } from "@/components/magicui/particles";
 import Navbar from "@/components/navbar";
+import { Toaster } from "@/components/ui/sonner"
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,16 +9,17 @@ function Layout({ children }: { children: React.ReactNode }) {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <Background />
         <Navbar />
-        <main className="max-w-screen-2xl mx-auto px-10">
+        <main className="max-w-screen-2xl mx-auto px-10 mb-20">
           {children}
         </main>
+        <Toaster />
       </ThemeProvider>
     </div>
   );
 }
 
 const Background = () => (
-  <div className="absolute top-0 left-0 overflow-hidden h-screen w-screen -z-10">
+  <div className="fixed top-0 left-0 overflow-hidden h-screen w-screen -z-10">
     <div className="absolute -top-300 -left-400">
       <Ellipse1 />
     </div>
