@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Plus } from "lucide-react"
+import { toast } from "sonner"
 
 function AddOrgModal({ onOrgChange }: { onOrgChange: () => void }) {
   const [isJoinDialogOpen, setIsJoinDialogOpen] = useState(false)
@@ -47,7 +48,7 @@ function AddOrgModal({ onOrgChange }: { onOrgChange: () => void }) {
       }
 
       const data = await response.json()
-      console.log("Organization created:", data)
+      toast.success("Organization created successfully")
 
       handleJoinOrg(data.id) // Automatically join the organization after creating it
       setIsCreateDialogOpen(false)
@@ -74,8 +75,7 @@ function AddOrgModal({ onOrgChange }: { onOrgChange: () => void }) {
         throw new Error("Failed to join organization")
       }
 
-      const data = await response.json()
-      console.log("Joined organization:", data)
+      toast.success("Successfully joined Organization")
 
       onOrgChange();
       setIsJoinDialogOpen(false)

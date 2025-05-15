@@ -12,8 +12,18 @@ import { Button } from "@/components/ui/button"
 import { Settings2Icon, Pencil, RefreshCwIcon, CopyIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { toast } from "sonner"
 
-function OrgConfigModal({ orgInfo }: { orgInfo: { id: number, name: string } }) {
+type OrgConfigModalProps = {
+  orgInfo: {
+    id: number
+    name: string
+  }
+  onOrgChange: () => void
+}
+
+function OrgConfigModal(props: OrgConfigModalProps) {
+  const { orgInfo, onOrgChange } = props;
   const [orgName, setOrgName] = useState(orgInfo.name)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
 
@@ -32,7 +42,8 @@ function OrgConfigModal({ orgInfo }: { orgInfo: { id: number, name: string } }) 
         return response.json()
       })
       .then((data) => {
-        console.log("Organization updated:", data)
+        toast.success("Organization updated successfully")
+        onOrgChange()
       })
       .catch((error) => {
         console.error("Error updating organization:", error)
@@ -102,6 +113,7 @@ function OrgConfigModal({ orgInfo }: { orgInfo: { id: number, name: string } }) 
               <Button className="flex justify-start flex-1 font-normal text-neutral-50 bg-neutral-800"
                 onClick={() => {
                   navigator.clipboard.writeText(orgInfo.id.toString())
+                  toast(`"${orgInfo.id}" Copied to clipboard`)
                 }}>
                 <CopyIcon />
                 {orgInfo.id}

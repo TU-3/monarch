@@ -53,8 +53,10 @@ export const OrganizationController = {
     async updateOrganizationName(req: express.Request, res: express.Response): Promise<void> {
         const { orgId } = req.params;
         const { orgName } = req.body;
+
         if (!orgName || !orgId) {
-            return res.status(400).json({ error: 'Organization ID and new name are required' });
+            res.status(400).json({ error: 'Organization ID and new name are required' });
+            return;
         }
         try {
             const updatedOrg = await updateOrganizationName(parseInt(orgId), orgName);
