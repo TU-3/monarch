@@ -8,7 +8,7 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import UpdatePassword from "@/pages/UpdatePassword";
 import OrgDashboard from "./pages/OrgDashboard";
 import Layout from "./components/layout";
-import { KanbanBoard } from "./components/ui/kanban/KanbanBoard";
+import KanbanDashboard from "./pages/KanbanDashboard";
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
                 path="/kanban"
                 element={
                   <AuthenticatedRoute>
-                    <KanbanBoard />
+                    <KanbanDashboard />
                   </AuthenticatedRoute>
                 }
               />

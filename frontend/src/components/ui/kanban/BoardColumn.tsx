@@ -5,8 +5,6 @@ import { useMemo } from "react";
 import { Task, TaskCard } from "./TaskCard";
 import { cva } from "class-variance-authority";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { GripVertical } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export interface Column {
@@ -34,8 +32,6 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
 
   const {
     setNodeRef,
-    attributes,
-    listeners,
     transform,
     transition,
     isDragging,
@@ -55,8 +51,9 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
     transform: CSS.Translate.toString(transform),
   };
 
+
   const variants = cva(
-    "h-[500px] max-h-[500px] w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center",
+    "h-[500px] max-h-full w-[350px] max-w-full bg-primary-foreground flex flex-col flex-shrink-0 snap-center",
     {
       variants: {
         dragging: {
@@ -77,26 +74,21 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
       })}
     >
       <CardHeader className="p-4 font-semibold border-b-2 text-left flex flex-row space-between items-center">
-        <Button
-          variant={"ghost"}
-          {...attributes}
-          {...listeners}
-          className=" p-1 text-primary/50 -ml-2 h-auto cursor-grab relative"
-        >
-          <span className="sr-only">{`Move column: ${column.title}`}</span>
-          <GripVertical />
-        </Button>
+  
         <span className="ml-auto"> {column.title}</span>
       </CardHeader>
-      <ScrollArea>
-        <CardContent className="flex flex-grow flex-col gap-2 p-2">
-          <SortableContext items={tasksIds}>
-            {tasks.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
-          </SortableContext>
-        </CardContent>
-      </ScrollArea>
+      <CardContent className="flex-1 p-0 overflow-hidden">
+        <ScrollArea className="h-full">
+          <div className="flex flex-col gap-2 p-2">
+            <SortableContext items={tasksIds}>
+              {tasks.map((task) => (
+                <TaskCard key={task.id} task={task} />
+              ))}
+            </SortableContext>
+          </div>
+          <ScrollBar orientation="vertical" />
+        </ScrollArea>
+      </CardContent>
     </Card>
   );
 }

@@ -7,6 +7,7 @@ import { cva } from "class-variance-authority";
 import { GripVertical } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ColumnId } from "./KanbanBoard";
+import { H4 } from "@/components/typography";
 
 export interface Task {
   id: UniqueIdentifier;
@@ -77,7 +78,7 @@ export function TaskCard({ task, isOverlay }: TaskCardProps) {
           <span className="sr-only">Move task</span>
           <GripVertical />
         </Button>
-        <text>Task Title</text>
+        <H4> Task Title </H4>
         <Badge variant={"outline"} className="ml-auto font-semibold">
           Task
         </Badge>

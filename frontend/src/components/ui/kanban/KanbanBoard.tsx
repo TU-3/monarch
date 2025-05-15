@@ -16,7 +16,7 @@ import {
   TouchSensor,
   MouseSensor,
 } from "@dnd-kit/core";
-import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+import { arrayMove } from "@dnd-kit/sortable";
 import { type Task, TaskCard } from "./TaskCard";
 import type { Column } from "./BoardColumn";
 import { hasDraggableData } from "./utils";
@@ -28,7 +28,7 @@ const defaultCols = [
     title: "Backlog",
   },
   {
-    id: "todo" as const,
+    id: "ready" as const,
     title: "Ready",
   },
   {
@@ -71,53 +71,41 @@ const initialTasks: Task[] = [
   },
   {
     id: "task6",
-    columnId: "todo",
+    columnId: "ready",
     content: "Implement user authentication",
   },
   {
     id: "task7",
-    columnId: "todo",
+    columnId: "ready",
     content: "Build contact us page",
   },
   {
     id: "task8",
-    columnId: "todo",
+    columnId: "ready",
     content: "Create product catalog",
   },
   {
     id: "task9",
-    columnId: "todo",
+    columnId: "ready",
     content: "Develop about us page",
   },
   {
     id: "task10",
-    columnId: "todo",
+    columnId: "ready",
     content: "Optimize website for mobile devices",
   },
   {
     id: "task11",
-    columnId: "todo",
+    columnId: "ready",
     content: "Integrate payment gateway",
-  },
-  {
-    id: "task12",
-    columnId: "todo",
-    content: "Perform testing and bug fixing",
-  },
-  {
-    id: "task13",
-    columnId: "todo",
-    content: "Launch website and deploy to server",
   },
 ];
 export function KanbanBoard() {
-  const [columns, setColumns] = useState<Column[]>(defaultCols);
+  const [columns] = useState<Column[]>(defaultCols);
   const pickedUpTaskColumn = useRef<ColumnId | null>(null);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
 
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
-
-  const [activeColumn, setActiveColumn] = useState<Column | null>(null);
 
   const [activeTask, setActiveTask] = useState<Task | null>(null);
 
@@ -236,6 +224,7 @@ export function KanbanBoard() {
   };
 
   return (
+    <div className="flex-1 overflow-hidden">
     <DndContext
       accessibility={{
         announcements,
@@ -246,7 +235,6 @@ export function KanbanBoard() {
       onDragOver={onDragOver}
     >
       <BoardContainer>
-        <SortableContext items={columnsId}>
           {columns.map((col) => (
             <BoardColumn
               key={col.id}
@@ -254,35 +242,22 @@ export function KanbanBoard() {
               tasks={tasks.filter((task) => task.columnId === col.id)}
             />
           ))}
-        </SortableContext>
       </BoardContainer>
 
       {"document" in window &&
         createPortal(
           <DragOverlay>
-            {activeColumn && (
-              <BoardColumn
-                isOverlay
-                column={activeColumn}
-                tasks={tasks.filter(
-                  (task) => task.columnId === activeColumn.id
-                )}
-              />
-            )}
             {activeTask && <TaskCard task={activeTask} isOverlay />}
           </DragOverlay>,
           document.body
         )}
     </DndContext>
+    </div>
   );
 
   function onDragStart(event: DragStartEvent) {
     if (!hasDraggableData(event.active)) return;
     const data = event.active.data.current;
-    if (data?.type === "Column") {
-      setActiveColumn(data.column);
-      return;
-    }
 
     if (data?.type === "Task") {
       setActiveTask(data.task);
@@ -291,7 +266,6 @@ export function KanbanBoard() {
   }
 
   function onDragEnd(event: DragEndEvent) {
-    setActiveColumn(null);
     setActiveTask(null);
 
     const { active, over } = event;
@@ -302,20 +276,7 @@ export function KanbanBoard() {
 
     if (!hasDraggableData(active)) return;
 
-    const activeData = active.data.current;
-
     if (activeId === overId) return;
-
-    const isActiveAColumn = activeData?.type === "Column";
-    if (!isActiveAColumn) return;
-
-    setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
-
-      const overColumnIndex = columns.findIndex((col) => col.id === overId);
-
-      return arrayMove(columns, activeColumnIndex, overColumnIndex);
-    });
   }
 
   function onDragOver(event: DragOverEvent) {
