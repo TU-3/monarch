@@ -7,12 +7,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Settings2 } from "lucide-react";
-<<<<<<< HEAD:frontend/src/components/org-dashboard/org-section.tsx
-import OrgConfigModal from "./org-config-modal";
-=======
+import { Plus } from "lucide-react";
+import OrgConfigModal from "@/components/org-dashboard/org-config-modal";
 import { CreateProjectDialog } from "@/components/createProjectDialog";
->>>>>>> 1f17b7d (feat(create project): Added ability to create project on org dashboard.):frontend/src/pages/OrgSection.tsx
 
 type Organization = {
   id: number;
@@ -50,25 +47,14 @@ function OrgSection(props: OrgSectionProps) {
             </CardHeader>
           </Card>
         ))}
-<<<<<<< HEAD:frontend/src/components/org-dashboard/org-section.tsx
-        <Button
-          variant="outline"
-          className="w-1/2 border-dashed h-full"
-        >
-          <Plus />
-        </Button>
-=======
-        <CreateProjectDialog organizationId={props.org.id}>
+        <CreateProjectDialog organizationId={props.org.id} onOrgChange={props.onOrgChange}>
           <Button
             variant="outline"
-            className="w-1/2 border-dashed border-black h-full"
+            className="w-1/2 border-dashed h-full"
           >
-            <span>
-              <Plus />
-            </span>
+            <Plus />
           </Button>
         </CreateProjectDialog>
->>>>>>> 1f17b7d (feat(create project): Added ability to create project on org dashboard.):frontend/src/pages/OrgSection.tsx
       </div>
     </div>
   );
