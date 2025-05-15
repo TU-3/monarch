@@ -6,11 +6,11 @@ export async function getOrganizationsFromUser(userId: string) {
   const rows = await db.query.organizationUser.findMany({
     where: eq(organizationUser.userId, userId),
     with: {
-      organization: true, 
+      organization: true,
     },
   });
 
-  return rows.map((row) => row.organization);  
+  return rows.map((row) => row.organization);
 }
 
 export async function getOrganizationById(organizationId: number) {
@@ -20,11 +20,15 @@ export async function getOrganizationById(organizationId: number) {
 }
 
 export async function createOrganization(organizationName: string, ownerId: string) {
+  const [newOrg] = await db
+    .insert(organization)
+    .values({
+      name: organizationName,
+      owner: ownerId,
+    })
+    .returning({ id: organization.id });
 
-  return db.insert(organization).values({
-    name: organizationName,
-    owner: ownerId,
-  });
+  return newOrg;
 }
 
 export async function addUserToOrganization(organizationId: number, userId: string) {
@@ -35,7 +39,7 @@ export async function addUserToOrganization(organizationId: number, userId: stri
 }
 
 export async function deleteOrganization(organizationId: number) {
-  
+
   try {
     await db.transaction(async (tx) => {
       await tx.delete(organizationUser).where(eq(organizationUser.organizationId, organizationId));
@@ -47,4 +51,16 @@ export async function deleteOrganization(organizationId: number) {
   }
   return { success: true };
 }
+
+//update an existing organizationname
+export async function updateOrganizationName(organizationId: number, newName: string) {
+  try {
+    await db.update(organization).set({ name: newName }).where(eq(organization.id, organizationId));
+  } catch (error) {
+    console.error('Error updating organization name:', error);
+    return { success: false, error: 'Failed to update organization name' };
+  }
+  return { success: true };
+}
+
 
