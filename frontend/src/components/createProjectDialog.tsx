@@ -11,16 +11,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
-export function CreateProjectDialog({ children, organizationId }: { children: ReactNode, organizationId: number }) {
+export function CreateProjectDialog({ children, organizationId, onOrgChange }: { children: ReactNode, organizationId: number, onOrgChange: () => void }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      try {
+    try {
       const response = await fetch(import.meta.env.VITE_API_PROXY_URL + "api/projects/" + organizationId, {
         method: "POST",
         headers: {
@@ -31,8 +32,8 @@ export function CreateProjectDialog({ children, organizationId }: { children: Re
 
       if (!response.ok) throw new Error("Failed to create project");
 
-      const result = await response.json();
-      console.log("Project created:", result);
+      onOrgChange();
+      toast.success("Project created successfully");
 
       setName("");
       setDescription("");
@@ -42,42 +43,42 @@ export function CreateProjectDialog({ children, organizationId }: { children: Re
       console.error(error);
     }
   }
-        
-    
+
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-xl">
-        <DialogHeader className="mb-4"> 
+        <DialogHeader className="mb-4">
           <DialogTitle>Create Project</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input 
-                  id="name" 
-                  placeholder="project name here" 
-                  value={name} 
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  placeholder="project description here"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                placeholder="project name here"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
-            <DialogFooter className="pt-6">
-              <Button type="submit" className="w-full">
-                Create
-              </Button>
-            </DialogFooter>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                placeholder="project description here"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter className="pt-6">
+            <Button type="submit" className="w-full">
+              Create
+            </Button>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
