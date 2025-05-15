@@ -2,6 +2,7 @@ import { ReactNode, useState } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -13,7 +14,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
-export function CreateProjectDialog({ children, organizationId, onOrgChange }: { children: ReactNode, organizationId: number, onOrgChange: () => void }) {
+type CreateProjectDialogProps = {
+  children: ReactNode;
+  organizationId: number;
+  onOrgChange: () => void;
+};
+
+function CreateProjectDialog({ children, organizationId, onOrgChange }: CreateProjectDialogProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [open, setOpen] = useState(false);
@@ -51,6 +58,9 @@ export function CreateProjectDialog({ children, organizationId, onOrgChange }: {
       <DialogContent className="max-w-xl">
         <DialogHeader className="mb-4">
           <DialogTitle>Create Project</DialogTitle>
+          <DialogDescription className="sr-only">
+            Create a new project for your organization.
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -84,3 +94,5 @@ export function CreateProjectDialog({ children, organizationId, onOrgChange }: {
     </Dialog>
   );
 }
+
+export default CreateProjectDialog;

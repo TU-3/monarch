@@ -22,8 +22,7 @@ type OrgConfigModalProps = {
   onOrgChange: () => void
 }
 
-function OrgConfigModal(props: OrgConfigModalProps) {
-  const { orgInfo, onOrgChange } = props;
+function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
   const [orgName, setOrgName] = useState(orgInfo.name)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
 

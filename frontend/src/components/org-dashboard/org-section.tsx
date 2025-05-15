@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import OrgConfigModal from "@/components/org-dashboard/org-config-modal";
-import { CreateProjectDialog } from "@/components/createProjectDialog";
+import CreateProjectDialog from "@/components/create-project-dialog";
 
 type Organization = {
   id: number;
@@ -30,16 +30,16 @@ type OrgSectionProps = {
   onOrgChange: () => void;
 };
 
-function OrgSection(props: OrgSectionProps) {
+function OrgSection({ org, onOrgChange }: OrgSectionProps) {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <H4>{props.org.name}</H4>
-        <OrgConfigModal orgInfo={props.org} onOrgChange={props.onOrgChange} />
+        <H4>{org.name}</H4>
+        <OrgConfigModal orgInfo={org} onOrgChange={onOrgChange} />
       </div>
       <Separator className="mb-4" />
       <div className="grid grid-cols-3 gap-4">
-        {props.org?.projects?.map((project) => (
+        {org?.projects?.map((project) => (
           <Card key={project.id} className="w-full">
             <CardHeader>
               <CardTitle>{project.name}</CardTitle>
@@ -47,7 +47,7 @@ function OrgSection(props: OrgSectionProps) {
             </CardHeader>
           </Card>
         ))}
-        <CreateProjectDialog organizationId={props.org.id} onOrgChange={props.onOrgChange}>
+        <CreateProjectDialog organizationId={org.id} onOrgChange={onOrgChange}>
           <Button
             variant="outline"
             className="w-1/2 border-dashed h-full"
