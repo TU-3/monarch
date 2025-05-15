@@ -21,7 +21,7 @@ export function CreateProjectDialog({ children, organizationId }: { children: Re
       e.preventDefault();
 
       try {
-      const response = await fetch("http://localhost:3001/api/projects/" + organizationId, {
+      const response = await fetch(import.meta.env.VITE_API_PROXY_URL + "api/projects/" + organizationId, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
