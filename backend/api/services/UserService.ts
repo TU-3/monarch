@@ -17,7 +17,5 @@ export async function getUsersByOrganization(organizationId: number) {
     },
   });
 
-  return rows.map((row) => ({
-    users: row.usersInAuth, // Rename usersInAuth to users
-  }));
+  return rows.map((row) => row.usersInAuth);
 }
