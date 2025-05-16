@@ -322,6 +322,7 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
                       <div className="flex justify-end space-x-2">
                         <Button
                           variant="outline"
+                          className="text-red-500 hover:bg-red-700"
                           onClick={() => {
                             handleDeleteOrg();
                             setIsDeleteOpen(false);
