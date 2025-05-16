@@ -1,5 +1,5 @@
 import express from 'express';
-import { getOrganizationsFromUser, createOrganization, addUserToOrganization, updateOrganizationName } from '../services/OrganizationService';
+import { getOrganizationsFromUser, createOrganization, addUserToOrganization, updateOrganizationName, deleteOrganization, removeUserFromOrganization } from '../services/OrganizationService';
 
 export const OrganizationController = {
     async getOrganizationsFromUser(req: express.Request, res: express.Response): Promise<void> {
@@ -23,7 +23,8 @@ export const OrganizationController = {
         const { orgName } = req.body;
 
         if (!orgName || !userId) {
-            return res.status(400).json({ error: 'User ID and organization name are required' });
+            res.status(400).json({ error: 'User ID and organization name are required' });
+            return;
         }
 
         try {
@@ -34,10 +35,26 @@ export const OrganizationController = {
         }
     },
 
+    async deleteOrganization(req: express.Request, res: express.Response): Promise<void> {
+        const { orgId } = req.params;
+
+        if (!orgId) {
+            res.status(400).json({ error: 'Organization ID is required' });
+            return;
+        }
+
+        try {
+            const response = await deleteOrganization(parseInt(orgId));
+            res.status(200).json(response);
+        } catch (err) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
+
     async addUserToOrganization(req: express.Request, res: express.Response): Promise<void> {
         const { userId } = req.params;
         const { orgId } = req.body;
-
+        
         if (!orgId || !userId) {
             res.status(400).json({ error: 'Organization ID and user ID are required' });
             return;
@@ -45,6 +62,23 @@ export const OrganizationController = {
         try {
             const org = await addUserToOrganization(parseInt(orgId), userId);
             res.json(org);
+        } catch (err) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
+
+    async removeUserFromOrganization(req: express.Request, res: express.Response): Promise<void> {
+        const { userId } = req.params;
+        const { orgId } = req.body;
+
+        if (!orgId || !userId) {
+            res.status(400).json({ error: 'Organization ID and user ID are required' });
+            return;
+        }
+
+        try {
+            const result = await removeUserFromOrganization(parseInt(orgId), userId);
+            res.json(result);
         } catch (err) {
             res.status(500).json({ error: 'Internal Server Error' });
         }
