@@ -59,6 +59,15 @@ export const OrganizationController = {
             res.status(400).json({ error: 'Organization ID and user ID are required' });
             return;
         }
+
+        // check if user is already in the organization
+        const orgs = await getOrganizationsFromUser(userId);
+        const isUserInOrg = orgs.some((org) => org.id === parseInt(orgId));
+        if (isUserInOrg) {
+            res.status(400).json({ error: 'User is already in the organization' });
+            return;
+        }
+        
         try {
             const org = await addUserToOrganization(parseInt(orgId), userId);
             res.json(org);
