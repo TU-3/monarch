@@ -28,6 +28,15 @@ import {
   TableRow,
 } from "../ui/table";
 import { useSession } from "@/context/AuthContext";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 
 type OrgConfigModalProps = {
   orgInfo: {
@@ -49,6 +58,7 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
   const [members, setMembers] = useState<Member[]>([]);
   const [isOwner, setIsOwner] = useState(false);
   const { session } = useSession();
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   useEffect(() => {
     getMembers(orgInfo.id.toString());
@@ -286,27 +296,60 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
               ))}
             </TableBody>
           </Table>
-          <Button
-            variant="destructive"
-            size="sm"
-            className="w-full mt-2"
-            onClick={() => handleLeaveOrg()}
-          >
-            Leave Org
-          </Button>
+          <div className="flex flex-row gap-2">
+            {isOwner ? (
+              <>
+                <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="text-red-500 hover:bg-red-700"
+                      onClick={() => setIsDeleteOpen(true)}
+                    >
+                      Delete Org
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you sure you want to delete this organization?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <div className="flex justify-end space-x-2">
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            handleDeleteOrg();
+                            setIsDeleteOpen(false);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            setIsDeleteOpen(false);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            ) : null}
+            <Button variant="destructive" onClick={() => handleLeaveOrg()}>
+              Leave Org
+            </Button>
+          </div>
         </div>
 
         <DialogFooter>
-          {isOwner ? (
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-red-500 hover:bg-red-700"
-              onClick={() => handleDeleteOrg()}
-            >
-              Delete Org
-            </Button>
-          ) : null}
           <Button
             type="submit"
             onClick={() => {
