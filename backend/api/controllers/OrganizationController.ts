@@ -1,5 +1,5 @@
 import express from 'express';
-import { getOrganizationsFromUser, createOrganization, addUserToOrganization, updateOrganizationName, deleteOrganization, removeUserFromOrganization } from '../services/OrganizationService';
+import { getOrganizationsFromUser, createOrganization, addUserToOrganization, updateOrganizationName, deleteOrganization, removeUserFromOrganization, getOrganizationById } from '../services/OrganizationService';
 
 export const OrganizationController = {
     async getOrganizationsFromUser(req: express.Request, res: express.Response): Promise<void> {
@@ -67,7 +67,7 @@ export const OrganizationController = {
             res.status(400).json({ error: 'User is already in the organization' });
             return;
         }
-        
+
         try {
             const org = await addUserToOrganization(parseInt(orgId), userId);
             res.json(org);
@@ -82,6 +82,13 @@ export const OrganizationController = {
 
         if (!orgId || !userId) {
             res.status(400).json({ error: 'Organization ID and user ID are required' });
+            return;
+        }
+
+        // check if user is the owner of the organization
+        const org = await getOrganizationById(parseInt(orgId));
+        if (org && org.owner === userId) {
+            res.status(400).json({ error: 'Owner cannot be removed from the organization' });
             return;
         }
 
