@@ -14,7 +14,7 @@ export const UserController = {
         const users = await getUsersByOrganization(parseInt(orgId));
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({ message: "Failed to fetch projects: " + error });
+        res.status(500).json({ message: "Failed to fetch users: " + error });
     }
   },
 

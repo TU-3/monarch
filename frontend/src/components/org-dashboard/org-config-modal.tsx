@@ -290,7 +290,7 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
             variant="destructive"
             size="sm"
             className="w-full mt-2"
-            onClick={handleLeaveOrg}
+            onClick={() => handleLeaveOrg()}
           >
             Leave Org
           </Button>
@@ -302,7 +302,7 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
               variant="outline"
               size="sm"
               className="text-red-500 hover:bg-red-700"
-              onClick={() => handleDeleteOrg}
+              onClick={() => handleDeleteOrg()}
             >
               Delete Org
             </Button>
