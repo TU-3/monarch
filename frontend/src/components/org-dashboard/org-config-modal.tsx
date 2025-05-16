@@ -321,8 +321,7 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
                     <AlertDialogFooter>
                       <div className="flex justify-end space-x-2">
                         <Button
-                          variant="outline"
-                          className="text-red-500 hover:bg-red-700"
+                          variant="destructive"
                           onClick={() => {
                             handleDeleteOrg();
                             setIsDeleteOpen(false);
