@@ -1,6 +1,6 @@
 import { db } from '../../db'; // reuse the shared instance
 import { organizationUser, organization } from '../../db/schema';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 export async function getOrganizationsFromUser(userId: string) {
   const rows = await db.query.organizationUser.findMany({
@@ -36,6 +36,25 @@ export async function addUserToOrganization(organizationId: number, userId: stri
     organizationId: organizationId,
     userId: userId,
   });
+}
+
+export async function removeUserFromOrganization(organizationId: number, userId: string) {
+  try{
+    const tx = await db.transaction(async (tx) => {
+      await tx.delete(organizationUser).where(
+        and(
+          eq(organizationUser.organizationId, organizationId),
+          eq(organizationUser.userId, userId)
+        )
+      );
+    });
+    return { success: true };
+  }
+   
+  catch (error) {
+    console.error('Error removing user from organization:', error);
+    return { success: false, error: 'Failed to remove user from organization' };
+  }
 }
 
 export async function deleteOrganization(organizationId: number) {
