@@ -32,7 +32,7 @@ function OrgDashboard() {
   const fetchOrganizationsAndProjects = async () => {
     try {
       const org_response = await fetch(
-        import.meta.env.VITE_API_PROXY_URL + "api/orgs/" + session?.user.id
+        process.env._API_PROXY_URL + "api/orgs/" + session?.user.id
       );
 
       if (!org_response.ok) {
@@ -45,7 +45,7 @@ function OrgDashboard() {
         // Promise.all means do in parallel
         org_data.map(async (org: Organization) => {
           const project_response = await fetch(
-            import.meta.env.VITE_API_PROXY_URL + "api/projects/" + org.id
+            process.env._API_PROXY_URL + "api/projects/" + org.id
           );
 
           if (!project_response.ok) {

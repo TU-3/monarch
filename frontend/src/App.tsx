@@ -1,14 +1,14 @@
 import { StrictMode } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
-import AuthenticatedRoute from "@/pages/AuthenticatedRoute";
-import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
-import ForgotPassword from "@/pages/ForgotPassword";
-import UpdatePassword from "@/pages/UpdatePassword";
-import OrgDashboard from "./pages/OrgDashboard";
+import AuthenticatedRoute from "@/app/AuthenticatedRoute";
+import Login from "@/app/Login";
+import Signup from "@/app/Signup";
+import ForgotPassword from "@/app/ForgotPassword";
+import UpdatePassword from "@/app/UpdatePassword";
+import OrgDashboard from "./app/OrgDashboard";
 import Layout from "./components/layout";
-import KanbanDashboard from "./pages/KanbanDashboard";
+import KanbanDashboard from "./app/KanbanDashboard";
 
 function App() {
   return (

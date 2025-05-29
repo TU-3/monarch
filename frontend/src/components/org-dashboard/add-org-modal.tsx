@@ -33,7 +33,7 @@ function AddOrgModal({ onOrgChange }: { onOrgChange: () => void }) {
   const handleCreateOrg = async (orgName: string) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_PROXY_URL}api/orgs/create/${session?.user.id}`,
+        `${process.env._API_PROXY_URL}api/orgs/create/${session?.user.id}`,
         {
           method: "POST",
           headers: {
@@ -61,7 +61,7 @@ function AddOrgModal({ onOrgChange }: { onOrgChange: () => void }) {
   const handleJoinOrg = async (orgId: string) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_PROXY_URL}api/orgs/join/${session?.user.id}`,
+        `${process.env._API_PROXY_URL}api/orgs/join/${session?.user.id}`,
         {
           method: "POST",
           headers: {
