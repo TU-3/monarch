@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import AuthenticatedRoute from "@/app/AuthenticatedRoute";
 import Login from "@/app/Login";
-import Signup from "@/app/Signup";
-import ForgotPassword from "@/app/ForgotPassword";
-import UpdatePassword from "@/app/UpdatePassword";
-import OrgDashboard from "./app/OrgDashboard";
+import Signup from "@/app/auth/sign-up/page";
+import ForgotPassword from "@/app/auth/forgot-password/page";
+import UpdatePassword from "@/app/auth/update-password/page";
+import OrgDashboard from "./app/page";
 import Layout from "./components/layout";
 import KanbanDashboard from "./app/KanbanDashboard";
 
@@ -25,7 +25,7 @@ function App() {
                   </AuthenticatedRoute>
                 }
               />
-              <Route 
+              <Route
                 path="/kanban"
                 element={
                   <AuthenticatedRoute>
@@ -33,10 +33,10 @@ function App() {
                   </AuthenticatedRoute>
                 }
               />
-              <Route path="/login" element={<Login />} />
-              <Route path="/sign-up" element={<Signup />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/update-password" element={<UpdatePassword />} />
+              <Route path="/auth/login" element={<Login />} />
+              <Route path="/auth/sign-up" element={<Signup />} />
+              <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+              <Route path="/auth/update-password" element={<UpdatePassword />} />
             </Routes>
           </Layout>
         </Router>

@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from '@/lib/utils'
 import { supabase } from '@/lib/client'
 import { Button } from '@/components/ui/button'
@@ -110,7 +112,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
               </div>
               <div className="mt-4 text-center text-sm">
                 Already have an account?{' '}
-                <a href="/login" className="underline underline-offset-4">
+                <a href="/auth/login" className="underline underline-offset-4">
                   Login
                 </a>
               </div>

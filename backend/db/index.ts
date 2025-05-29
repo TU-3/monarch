@@ -8,5 +8,5 @@ import * as relations from "./relations";
 config(); // load env vars
 
 
-const client = postgres(process.env.DATABASE_URL!, { prepare: false });
-export const db = drizzle(client, { schema:  { ...schema, ...relations }});
+const client = postgres(process.env.NEXT_PUBLIC_DATABASE_URL!, { prepare: false });
+export const db = drizzle(client, { schema: { ...schema, ...relations } });

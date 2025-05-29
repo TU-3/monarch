@@ -29,7 +29,7 @@ function CreateProjectDialog({ children, organizationId, onOrgChange }: CreatePr
     e.preventDefault();
 
     try {
-      const response = await fetch(process.env._API_PROXY_URL + "api/projects/" + organizationId, {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_PROXY_URL + "api/projects/" + organizationId, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

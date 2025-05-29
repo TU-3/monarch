@@ -1,12 +1,19 @@
+"use client";
 import { ThemeProvider } from "@/components/theme-provider"
+import { AuthProvider } from "@/context/AuthContext";
 import { Particles } from "@/components/magicui/particles";
 import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner"
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="">
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <AuthProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
         <Background />
         <Navbar />
         <main className="max-w-screen-2xl mx-auto px-10 mb-20">
@@ -14,7 +21,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         </main>
         <Toaster />
       </ThemeProvider>
-    </div>
+    </AuthProvider>
   );
 }
 

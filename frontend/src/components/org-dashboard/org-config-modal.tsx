@@ -67,7 +67,7 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
 
   async function handleSaveOrg() {
     fetch(
-      `${process.env._API_PROXY_URL}api/orgs/update/${orgInfo.id}`,
+      `${process.env.NEXT_PUBLIC_API_PROXY_URL}api/orgs/update/${orgInfo.id}`,
       {
         method: "PUT",
         headers: {
@@ -97,7 +97,7 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
   }
 
   const getMembers = async (orgId: string) => {
-    fetch(`${process.env._API_PROXY_URL}api/users/${orgId}`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_PROXY_URL}api/users/${orgId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -119,7 +119,7 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
 
   const handleDeleteOrg = async () => {
     fetch(
-      `${process.env._API_PROXY_URL}api/orgs/delete/${orgInfo.id}`,
+      `${process.env.NEXT_PUBLIC_API_PROXY_URL}api/orgs/delete/${orgInfo.id}`,
       {
         method: "DELETE",
         headers: {
@@ -144,7 +144,7 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
 
   const handleLeaveOrg = async () => {
     await fetch(
-      `${process.env._API_PROXY_URL}api/orgs/leave/${session?.user.id}`,
+      `${process.env.NEXT_PUBLIC_API_PROXY_URL}api/orgs/leave/${session?.user.id}`,
       {
         method: "DELETE",
         headers: {
@@ -174,7 +174,7 @@ function OrgConfigModal({ orgInfo, onOrgChange }: OrgConfigModalProps) {
       return;
     }
     await fetch(
-      `${process.env._API_PROXY_URL}api/orgs/leave/${memberId}`,
+      `${process.env.NEXT_PUBLIC_API_PROXY_URL}api/orgs/leave/${memberId}`,
       {
         method: "DELETE",
         headers: {

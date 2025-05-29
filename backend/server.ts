@@ -5,7 +5,7 @@ import postgres from 'postgres';
 import appRouter from './api/routes/index'; // adjust path if needed
 
 // 1) Initialize Postgres client (disable prepare if using Supabase pool mode)
-const sql = postgres(process.env.DATABASE_URL!, {
+const sql = postgres(process.env.NEXT_PUBLIC_DATABASE_URL!, {
   ssl: { rejectUnauthorized: false },
   prepare: false,
 });
@@ -17,7 +17,7 @@ app.use(express.json());
 // Register the routers 
 app.use("/api", appRouter);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.NEXT_PUBLIC_PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Drizzle API listening on http://localhost:${PORT}`);
 });
